@@ -65,6 +65,7 @@ WantedBy=multi-user.target
 - `--experimental-self-hosted-kubelet`尚未可用
 - `--experimental-calico-network-policy`產生calico的yaml
 - `asset-dir`kubernetes所有的配置與證書都在這裡, 如果重新render要確定此目錄是不存在的
+- render完成後砍`flannel`, 因為我們已經有`calico`當主要的`cni`
 
 ```bash
 bootkube render 
@@ -73,6 +74,9 @@ bootkube render
     --experimental-self-hosted-kubelet \
     --experimental-calico-network-policy
     
+# 我們已經有calico, flannel砍
+rm /tmp/b1/manifests/kube-flannel*
+
 # 啟動kubelet.service之前的重要步驟, 複製kubeconfig
 cp /tmp/b1/auth/kubeconfig /etc/kubernetes/
 
