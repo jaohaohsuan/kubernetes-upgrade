@@ -8,6 +8,8 @@
 - 確保etcd3的`/registry`被刪除, 執行`ETCDCTL_API=3 etcdctl del /registry --prefix`. 另一個暴力方法是砍etcd data目錄
 - 清理全部container, 執行`docker ps -a -q | xargs docker rm -f -v`
 - systemctl stop kubelet.service
+- `rkt gc --grace-period=0`, 如果你用rkt運行kubelet
+- 清理被kubernetes mount住的相關內容`mount | grep kube | awk '{print $3}' | xargs umount`
 
 以下是`kubelet.service`, 注意cni的bin與config的位置變了, 憑證也是. `--hostname-override`務必用IP, 原因是其他Pod並沒有mount `/etc/resolve.conf`.
 
