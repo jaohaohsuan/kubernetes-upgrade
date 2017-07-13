@@ -53,6 +53,7 @@ parameters:
   adminSecretNamespace: default
   adminSecretName: storageos-secret
 EOF
+
 kubectl apply -f fast-storageos.yaml
 ```
 
