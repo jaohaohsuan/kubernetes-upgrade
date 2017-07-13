@@ -36,3 +36,50 @@ kubectl create secret generic storageos-secret \
     --from-literal=apiPassword=storageos \
     --namespace=default
 ```
+
+创建storageOS的`StorageClass`
+
+```bash
+cat << EOF > fast-storageos.yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+  name: fast
+provisioner: kubernetes.io/storageos
+parameters:
+  pool: default
+  description: Kubernetes volume
+  fsType: ext4
+  adminSecretNamespace: default
+  adminSecretName: storageos-secret
+EOF
+kubectl apply -f fast-storageos.yaml
+```
+
+创建一个pvc测试
+
+```bash
+cat << EOF > fast0001.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fast0001
+  annotations:
+    volume.beta.kubernetes.io/storage-class: fast
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+EOF
+
+kubectl apply -f fast0001.yaml
+```
+
+clean up
+
+```bash
+kubectl delete -f fast0001.yaml
+kubectl delete -f fast-storageos.yaml
+```
