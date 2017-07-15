@@ -55,7 +55,7 @@ WantedBy=multi-user.target
 
 - `--api-servers`列舉所有可能會訪問`apiserver`的方式, 內部會去掉scheme與port後拿來當憑證的SAN內容
 - `--etcd-servers`如果不配置, bootkube會幫你產生`etcd.yaml`的manifest
-- `--experimental-self-hosted-kubelet`尚未可用
+- `--experimental-self-hosted-kubelet`[尚未](https://github.com/kubernetes/kubernetes/pull/46444)可用
 - `--experimental-calico-network-policy`產生calico的yaml
 - `asset-dir`kubernetes所有的配置與證書都在這裡, 如果重新render要確定此目錄是不存在的
 - render完成後砍`flannel`, 因為我們已經有`calico`當主要的`cni`
